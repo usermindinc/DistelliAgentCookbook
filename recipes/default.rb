@@ -20,8 +20,8 @@ directory "/usr/local/DistelliAgent/logs" do
   action :create
 end
 
-remote_file "/tmp/DistelliAgent-1.73.tar.gz" do
-  source "http://www.distelli.com/downloads/DistelliAgent-1.73.tar.gz"
+remote_file "/tmp/DistelliAgent-1.74.tar.gz" do
+  source "http://www.distelli.com/downloads/DistelliAgent-1.74.tar.gz"
   mode 00644
 end
 
@@ -30,7 +30,7 @@ bash "install_agent" do
   group "root"
   cwd "/tmp"
   code <<-EOH
-  tar -C /usr/local/DistelliAgent/ -zxvf /tmp/DistelliAgent-1.73.tar.gz >> /usr/local/DistelliAgent/logs/install.log 2>&1
+  tar -C /usr/local/DistelliAgent/ -zxvf /tmp/DistelliAgent-1.74.tar.gz >> /usr/local/DistelliAgent/logs/install.log 2>&1
   ln -sf /usr/local/DistelliAgent/bin/dagent /usr/local/bin/ >> /usr/local/DistelliAgent/logs/install.log 2>&1  
   EOH
 end
@@ -55,7 +55,7 @@ cookbook_file "/etc/distelli.yml" do
 end
 
 execute "dagent" do
-  command "dagent start #{node[:cloud][:public_hostname]}"
+  command "dagent start #{node[:fqdn]}"
   cwd "/home/distelli"
   user "distelli"
   group "distelli"
