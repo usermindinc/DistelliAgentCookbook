@@ -21,7 +21,7 @@ directory "/usr/local/DistelliAgent/logs" do
 end
 
 remote_file "/tmp/DistelliAgent-1.74.tar.gz" do
-  source "http://www.distelli.com/downloads/DistelliAgent-1.74.tar.gz"
+  source "http://download.distelli.com/DistelliAgent-1.74.tar.gz"
   mode 00644
 end
 
