@@ -49,8 +49,8 @@ user node[:distelli][:agent][:user] do
 end
 
 directory "/distelli" do
-  owner "distelli"
-  group "distelli"
+  owner node[:distelli][:agent][:user]
+  group node[:distelli][:agent][:group]
   mode 00777
   action :create
 end
