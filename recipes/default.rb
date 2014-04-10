@@ -1,11 +1,12 @@
 #
-# Cookbook Name:: distelli_agent_install
+# Cookbook Name:: distelli_agent
 # Recipe:: default
 #
-# Copyright 2013, YOUR_COMPANY_NAME
+# Copyright 2014, Distelli Inc.
 #
 # All rights reserved - Do Not Redistribute
 #
+
 directory "/usr/local/DistelliAgent/" do
   owner "root"
   group "root"
@@ -20,8 +21,8 @@ directory "/usr/local/DistelliAgent/logs" do
   action :create
 end
 
-remote_file "/tmp/DistelliAgent-1.74.tar.gz" do
-  source "http://download.distelli.com/DistelliAgent-1.74.tar.gz"
+remote_file "/tmp/#{node[:distelli][:agent][:package]}" do
+  source "#{node[:distelli][:agent][:url]}#{node[:distelli][:agent][:package]}"
   mode 00644
 end
 
@@ -30,15 +31,20 @@ bash "install_agent" do
   group "root"
   cwd "/tmp"
   code <<-EOH
-  tar -C /usr/local/DistelliAgent/ -zxvf /tmp/DistelliAgent-1.74.tar.gz >> /usr/local/DistelliAgent/logs/install.log 2>&1
+  tar -C /usr/local/DistelliAgent/ -zxvf /tmp/#{node[:distelli][:agent][:package]} >> /usr/local/DistelliAgent/logs/install.log 2>&1
   ln -sf /usr/local/DistelliAgent/bin/dagent /usr/local/bin/ >> /usr/local/DistelliAgent/logs/install.log 2>&1  
   EOH
 end
 
-user "distelli" do
+group node[:distelli][:agent][:group] do
+  action :create
+end
+
+user node[:distelli][:agent][:user] do
+  gid node[:distelli][:agent][:group]
   supports :manage_home => true
   comment "Distelli User"
-  home "/home/distelli"
+  home "/home/#{node[:distelli][:agent][:user]}"
   shell "/bin/bash"
 end
 
@@ -49,14 +55,14 @@ directory "/distelli" do
   action :create
 end
 
-cookbook_file "/etc/distelli.yml" do
-  source "distelli.yml"
+template "/etc/distelli.yml" do
+  source "distelli.yml.erb"
   mode 00644
 end
 
 execute "dagent" do
   command "dagent start #{node[:fqdn]}"
-  cwd "/home/distelli"
-  user "distelli"
-  group "distelli"
+  cwd "/home/#{node[:distelli][:agent][:user]}"
+  user node[:distelli][:agent][:user]
+  group node[:distelli][:agent][:group]
 end
