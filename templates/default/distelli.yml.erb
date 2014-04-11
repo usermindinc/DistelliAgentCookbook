@@ -1,0 +1,5 @@
+credentials:
+    s3://<%= node[:distelli][:agent][:s3_bucket_name] %>: ['<%= node[:distelli][:agent][:s3_access_key_id] %>', '<%= node[:distelli][:agent][:s3_secret_key] %>']
+
+DistelliAccessToken: '<%= node[:distelli][:agent][:access_token] %>'
+DistelliSecretKey: '<%= node[:distelli][:agent][:secret_key] %>'
