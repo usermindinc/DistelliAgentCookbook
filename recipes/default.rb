@@ -61,7 +61,11 @@ template "/etc/distelli.yml" do
 end
 
 execute "dagent" do
-  command "dagent start #{node[:fqdn]}"
+  server_id = node[:distelli][:agent][:server_id]
+  if server_id == nil || server_id.blank?
+    server_id = node[:fqdn]
+  end
+  command "dagent start #{server_id}"
   cwd "/home/#{node[:distelli][:agent][:user]}"
   user node[:distelli][:agent][:user]
   group node[:distelli][:agent][:group]

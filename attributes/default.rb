@@ -13,3 +13,5 @@ default[:distelli][:agent][:secret_key]       = ''
 default[:distelli][:agent][:s3_bucket_name]   = ''
 default[:distelli][:agent][:s3_access_key_id] = ''
 default[:distelli][:agent][:s3_secret_key]    = ''
+default[:distelli][:agent][:server_id]        = ''
+
