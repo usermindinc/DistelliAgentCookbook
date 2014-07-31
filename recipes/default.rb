@@ -61,7 +61,7 @@ template "/etc/distelli.yml" do
 end
 
 template "/etc/sudoers.d/distelli" do
-  source "distelli.sudoers"
+  source "distelli.sudoers.erb"
   mode 00440
 end
 
