@@ -60,6 +60,11 @@ template "/etc/distelli.yml" do
   mode 00644
 end
 
+template "/etc/sudoers.d/distelli" do
+  source "distelli.sudoers"
+  mode 00440
+end
+
 execute "dagent" do
   server_id = node[:distelli][:agent][:server_id]
   if server_id == nil || server_id.blank?
