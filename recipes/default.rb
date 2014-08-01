@@ -60,10 +60,10 @@ template "/etc/distelli.yml" do
   mode 00644
 end
 
-template "/etc/sudoers.d/distelli" do
-  source "distelli.sudoers.erb"
-  mode 00440
-end
+#template "/etc/sudoers.d/distelli" do
+#  source "distelli.sudoers.erb"
+#  mode 00440
+#end
 
 execute "dagent" do
   server_id = node[:distelli][:agent][:server_id]
